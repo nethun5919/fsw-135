@@ -19,7 +19,7 @@ mongoose.connect('mongodb://localhost:27017/inventorydb',
 )
 
 // Route
-app.use('/inventory', import('./routes/router'))
+app.use('/inventory', require('./routes/router'))
 
 app.listen(9000,() => {
  console.log("server listenting on port 9000.")
