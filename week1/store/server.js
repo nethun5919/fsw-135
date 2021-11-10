@@ -1,7 +1,8 @@
   import express from 'express'
   import morgan from 'morgan'
   import mongoose from 'mongoose'
-
+  import inventory.js from '../models/inventory.js'
+  
 // const express = require("express");
 // const morgan = require('morgan');
 // const mongoose = require('mongoose');
