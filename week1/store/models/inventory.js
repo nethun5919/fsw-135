@@ -19,3 +19,4 @@ const inventorySchema = new Schema({
 })
 
 modual.exports = mongoose.module("inventory", inventorySchema)
+
