@@ -1,16 +1,8 @@
-import express from 'express'
+const express = require('express')
 const router = express.Router()
 const Inventory = require('../models/inventory.js')
-
-    
-
-router.get("/", (req, res, next) => {
-    res.status(500)
-    return next(err)
-})
-
-
-router.get("/", (req, res, next) => {
+​
+    router.get("/", (req, res, next) => {
       Inventory.find((err, inventory) => {
       if(err){
         res.status(500)
@@ -19,8 +11,8 @@ router.get("/", (req, res, next) => {
       return res.status(200).send(inventory)
     })
   })
-
-
+​
+​
   router.post("/", (req, res, next) => {
     const newInventory = new Inventory(req.body)
     newInventory.save((err, savedInventory) => {
@@ -31,8 +23,8 @@ router.get("/", (req, res, next) => {
       return res.status(201).send(savedInventory)
     })
   })
-
-
+​
+​
   router.put("/:InventoryId", (req, res, next) => {
     Inventory.findOneAndUpdate(
       { _id: req.params.inventoryID},
@@ -47,8 +39,8 @@ router.get("/", (req, res, next) => {
       }
     )  
   })
-
-
+​
+​
   router.delete("/:InventoryId", (req, res, next) => {
     Inventory.findOneAndDelete(
       {_id: req.params.InventoryId}, 
@@ -61,5 +53,5 @@ router.get("/", (req, res, next) => {
       }
     )
   })
-
+​
   module.exports = router
