@@ -21,6 +21,9 @@ async function main() {
   console.log("Connected to the DB")
 }
 
+
+app.use('/auth', require('./routes/authRouter.js'))
+
 app.use(express.json());
 
 // Routes
