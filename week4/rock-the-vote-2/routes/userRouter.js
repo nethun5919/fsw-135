@@ -1,5 +1,5 @@
 const express = require('express')
-const authRouter = express.Router()
+const UserRouter = express.Router()
 const User = require('../models/user')
 
 
@@ -72,4 +72,4 @@ UserRouter.route('/')
 
 
 
-module.exports = IssueRouter
+module.exports = UserRouter

@@ -1,5 +1,5 @@
 const express = require('express')
-const authRouter = express.Router()
+const CommentRouter = express.Router()
 const Comment = require('../models/comment')
 
 

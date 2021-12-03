@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
-
+const expressJwt = require('express-jwt')
 //  mongoose.connect('mongodb://localhost:27017/rock-the-vote',
 //     {
 //         useNewUrlParser: true,
@@ -12,8 +12,8 @@ const mongoose = require('mongoose')
 //     () => console.log("Connected to the DB")
 // )
 
-
-
+app.use(express.json());
+require("dotenv").config();
 main().catch(err => console.log(err));
 
 async function main() {
@@ -22,12 +22,13 @@ async function main() {
 }
 
 // Routes
-app.use('/users', require('./routes/userRouter'))
 app.use('/auth', require('./routes/authRouter.js'))
-app.use('/issues', require('./routes/issueRouter.js'))
-app.use('/comments', require('./routes/commentRouter.js'))
+app.use('/api', expressJwt({ secret: process.env.SECRET, algorithms: ['RS256'] }))
+app.use('/api/users', require('./routes/userRouter'))
+app.use('/api/issues', require('./routes/issueRouter.js'))
+app.use('/api/comments', require('./routes/commentRouter.js'))
 
-app.use(express.json());
+
 
 
 

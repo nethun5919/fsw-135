@@ -24,7 +24,7 @@ app.listen(9000,() => {
 
 
 app.use('/api', expressJwt({ secret: process.env.SECRET, algorithms: ['RS256'] }))
-app.use('/api/todo)
+// app.use('/api/todo)
 
 if(err.name === 'Unauthorized Error'){
    res.status(err.status)

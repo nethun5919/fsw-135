@@ -1,29 +1,47 @@
-// login and signup code
-import Reaact,{useState} from 'react' 
-import axios from 'axios'
-export const UserContext = React.createContext()
+const express = require('express')
+const authRouter = express.Router()
+const User = require('../models/user.js')
+const jwt = require('jsonwebtoken')
 
-export default funtion authRouter (props) {
-   const initState =(user:{}, token: ""}
-   const [userState,setUserState]= userState(initState)
-}
+// Signup
+authRouter.post("/signup", (req, res, next) => {
+  User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => {
+    if(err){
+      res.status(500)
+      return next(err)
+    }
+    if(user){
+      res.status(403)
+      return next(new Error('Username Already Exists'))
+    }
+    const newUser = new User(req.body)
+    newUser.save((err, savedUser) => {
+      if(err){
+        res.status(500)
+        return next(err)
+      }
+      const token = jwt.sign(savedUser.toObject(), process.env.SECRET)
+      return res.status(201).send({ token, user: savedUser })
+    })
+  })
+})
 
+// Login
+authRouter.post("/login", (req, res, next) => {
+    console.log(req.body)
+  User.findOne({ username: req.body.username }, (err, user) => {
+      console.log(user)
+    if(err){
+      res.status(500)
+      return next(err)
+    }
+    if(!user|| req.body.password !== user.password ){
+      res.status(403)
+      return next(new Error('Invalid Credentials'))
+    }
+    const token = jwt.sign(user.toObject(), process.env.SECRET)
+    return res.status(200).send({ token, user })
+  })
+})
 
-function signup (credentials) {
-    axios.post('/auth/signup', credentials)
-    .then(res => console.log(res))
-    .catch(err => console.log(err.response.data.errMsg))
-}
-
-
-function login(credetials) {
-    axios.post ('/auth/login', credentials)
-    .then (res => console.log(res))
-    .catch (err =>console.dir(err.response.data.errMsg))
-}
-
-return(
-    <UserContext.Provider value= {{...userState,signup,login}}>
-      {props.children}
-    </UserContext.Provider>
-)
+module.exports = authRouter
